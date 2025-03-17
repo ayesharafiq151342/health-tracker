@@ -1,6 +1,36 @@
+import { useEffect, useState } from "react";
 import { Search, Bell, Globe, Menu as MenuIcon } from "lucide-react";
-
+import  {useNavigate} from "react-router-dom";
 export function TopHeader({ toggleSidebar }) {
+
+  const [user, setUser] = useState(null);
+  const navigator = useNavigate() 
+  const handleLogout = async () => {
+    try {
+      const response = await fetch("http://localhost:4000/api/auth/logout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
+      const data = await response.json();
+      console.log("Logout Response:", data);
+      if (data.success) {
+        localStorage.removeItem("token");
+       
+        navigator("/signup");
+      } 
+    } catch (error) {
+      console.error("Error logging out:", error);
+  
+    }
+  };
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    if (storedUser) {
+      setUser(storedUser);
+    }
+  }, []);
+
   return (
     <div className="flex items-center justify-between bg-gray-900 p-3 shadow-md w-full border-b border-gray-200">
       <div className="flex items-center gap-4">
@@ -23,7 +53,14 @@ export function TopHeader({ toggleSidebar }) {
           <Globe className="text-gray-400" />
           <span className="hidden sm:block">Eng (US)</span>
         </div>
+        {user && (
+          <div className="flex items-center gap-2 bg-gray-800 px-3 py-1 rounded-lg">
+            <span className="text-white">{user.name}</span>
+          </div>
+        )}
+         <button onClick={handleLogout}>Logout</button>
       </div>
+     
     </div>
   );
 }

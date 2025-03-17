@@ -12,9 +12,10 @@ import ToastProvider from './components/ToastProvider';
 import Navbar from './components/navbar';
 import Footer from './components/footer';
 import DashboardLayout from "./pages/dashboard";
-
+import MealTracker from './pages/meals';
 import {TopHeader} from './components/topheader';
 import {SidebarComponent} from './components/sidebar'
+import Exercise from './pages/exercise';
 const App = () => { 
   return (
     <div>
@@ -32,6 +33,10 @@ const App = () => {
           <Route path='/topheader' element={<TopHeader></TopHeader>} />
 
           <Route path='/sidebar' element={<SidebarComponent></SidebarComponent>} />
+          <Route path='/meals' element={<MealTracker></MealTracker>} />
+
+          <Route path='/exercise' element={<Exercise></Exercise>} />
+
 
 
 

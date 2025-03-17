@@ -9,7 +9,8 @@ function DashboardLayout() {
 
   const toggleSidebar = () => {
     setSidebarOpen(!isSidebarOpen);
-  };  const activityData = [
+  }; 
+   const activityData = [
     { day: "Mon", value: 3 },
     { day: "Tue", value: 4 },
     { day: "Wed", value: 2 },

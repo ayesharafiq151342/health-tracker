@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom"; // ✅ Correct import for Vite
+import { useNavigate } from "react-router-dom"; // ✅ Correct import for React Router
 import Button from "../ui/button";
 import toast from "react-hot-toast";
 
 export default function Login() {
-  const navigate = useNavigate(); // ✅ React Router Hook
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -35,18 +35,20 @@ export default function Login() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ email, password }),
+        credentials: "include", // Ensure cookies are sent for authentication
       });
 
       const data = await response.json();
 
       if (data.success) {
+        localStorage.setItem("user", JSON.stringify(data.user)); // ✅ Store user data
         toast.success("Login successful! Redirecting...");
-        navigate("/dashboard"); // ✅ Redirect to home after login
+        navigate("/dashboard"); // ✅ Redirect after login
       } else {
         toast.error(data.message || "Invalid email or password");
       }
     } catch (err) {
-      toast.error("Something went wrong. Please try again."+err);
+      toast.error("Something went wrong. Please try again." + err);
     } finally {
       setLoading(false);
     }
@@ -54,21 +56,24 @@ export default function Login() {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-gray-900 to-gray-700 px-4">
-
-<div className="flex flex-col md:flex-row bg-gray-200/50 rounded-lg shadow-lg w-full max-w-4xl overflow-hidden">
-
-        <div className="hidden md:flex w-1/2   bg-gray-200/30 rounded-lg shadow-lg    justify-center items-center p-8">
+      <div className="flex flex-col md:flex-row bg-gray-200/50 rounded-lg shadow-lg w-full max-w-4xl overflow-hidden">
+        {/* Left Side (Illustration) */}
+        <div className="hidden md:flex w-1/2 bg-gray-200/30 rounded-lg shadow-lg justify-center items-center p-8">
           <div className="text-center">
-            <img src="/signupbg-removebg-preview.png" alt="Illustration" className="mx-auto mb-4" />
-            
+            <img
+              src="/signupbg-removebg-preview.png"
+              alt="Illustration"
+              className="mx-auto mb-4"
+            />
           </div>
         </div>
 
+        {/* Right Side (Login Form) */}
         <div className="w-full md:w-1/2 p-8">
-          <h2 className="text-2xl font-bold mb-6 text-gray-800  text-center">Login</h2>
-          <form onSubmit={handleSignIn} className="space-y-4 ">
+          <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center">Login</h2>
+          <form onSubmit={handleSignIn} className="space-y-4">
             <div>
-              <label className="block text-white mb-1">Email</label>
+              <label className="block text-gray-800 mb-1">Email</label>
               <input
                 type="email"
                 value={email}
@@ -80,7 +85,7 @@ export default function Login() {
             </div>
 
             <div>
-              <label className="block text-white mb-1">Password</label>
+              <label className="block text-gray-800 mb-1">Password</label>
               <input
                 type="password"
                 value={password}
@@ -92,11 +97,9 @@ export default function Login() {
             </div>
 
             <div className="flex justify-between items-center text-sm text-gray-600">
-              <div className="flex items-center">
-                
-                
-              </div>
-              <a href="/Forgetpassword" className="text-blue-600 hover:underline">Forgot password?</a>
+              <a href="/Forgetpassword" className="text-blue-600 hover:underline">
+                Forgot password?
+              </a>
             </div>
 
             <Button type="submit" disabled={loading} className="w-full">
@@ -104,7 +107,7 @@ export default function Login() {
             </Button>
           </form>
 
-          <p className="mt-4 text-center text-white">
+          <p className="mt-4 text-center text-gray-800">
             Don’t have an account?
             <a href="/signup" className="text-blue-600 hover:underline"> Sign up</a>
           </p>
