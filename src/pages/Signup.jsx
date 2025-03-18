@@ -53,19 +53,20 @@ function Signup() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-gray-900 to-gray-700 px-4">
-      <div className="flex flex-col md:flex-row  bg-gray-200/30 rounded-lg shadow-lg  rounded-lg shadow-lg w-full max-w-4xl overflow-hidden">
-        <div className="hidden md:flex w-1/2  bg-gray-200/30 rounded-lg shadow-lg   justify-center items-center p-8">
-          <div className="text-center">
-            <img src="/signupbg-removebg-preview.png" alt="Illustration" className="mx-auto mb-4" />
-          </div>
-        </div>
+    <div className="flex flex-col md:flex-row items-center justify-center bg-gray-100 min-h-screen">
+      {/* Left Side - Image */}
+      <div
+        className="hidden md:block md:w-1/2 bg-cover bg-center h-screen"
+        style={{ backgroundImage: 'url(/signup.jpg)' }}
+      ></div>
 
+      {/* Right Side */}
+      <div className="flex flex-col justify-center items-center w-full md:w-1/2">
         <div className="w-full md:w-1/2 p-8">
-          <h2 className="text-2xl font-bold mb-6 text-white text-center">Sign Up</h2>
+          <h2 className="text-2xl font-bold mb-6 text-black text-center">Sign Up</h2>
           <form onSubmit={handleSignUp} className="space-y-4">
             <div>
-              <label className="block text-white mb-1">Name</label>
+              <label className="block text-black mb-1">Name</label>
               <input
                 type="text"
                 value={name}
@@ -77,7 +78,7 @@ function Signup() {
             </div>
 
             <div>
-              <label className="block text-white mb-1">Email</label>
+              <label className="block text-black mb-1">Email</label>
               <input
                 type="email"
                 value={email}
@@ -89,7 +90,7 @@ function Signup() {
             </div>
 
             <div>
-              <label className="block text-white mb-1">Password</label>
+              <label className="block text-black mb-1">Password</label>
               <input
                 type="password"
                 value={password}
@@ -105,7 +106,7 @@ function Signup() {
             </Button>
           </form>
 
-          <p className="mt-4 text-center text-white">
+          <p className="mt-4 text-center text-black">
             Already have an account?
             <a href="/login" className="text-blue-600 hover:underline"> Login</a>
           </p>

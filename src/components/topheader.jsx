@@ -1,10 +1,26 @@
 import { useEffect, useState } from "react";
-import { Search, Bell, Globe, Menu as MenuIcon } from "lucide-react";
-import  {useNavigate} from "react-router-dom";
-export function TopHeader({ toggleSidebar }) {
+import { Menu as MenuIcon } from "lucide-react";
+import { useLocation, useNavigate } from "react-router-dom";
 
+export function TopHeader({ toggleSidebar }) {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [user, setUser] = useState(null);
-  const navigator = useNavigate() 
+
+  // 🛑 Define titles dynamically based on routes
+  const pageTitles = {
+    "/dashboard": "Dashboard",
+    "/Exercise": "Exercise Tracker",
+    "/MedicalRecords": "Medical Records",
+    "/meals": "Meal Tracker",
+    "/suggestions": "Health Suggestions",
+    "/reminder": "Reminders",
+  };
+
+  // Get the current page title based on URL
+  const pageTitle = pageTitles[location.pathname] || "Dashboard";
+
+  // Logout function
   const handleLogout = async () => {
     try {
       const response = await fetch("http://localhost:4000/api/auth/logout", {
@@ -16,14 +32,13 @@ export function TopHeader({ toggleSidebar }) {
       console.log("Logout Response:", data);
       if (data.success) {
         localStorage.removeItem("token");
-       
-        navigator("/signup");
-      } 
+        navigate("/signup");
+      }
     } catch (error) {
       console.error("Error logging out:", error);
-  
     }
   };
+
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
     if (storedUser) {
@@ -32,35 +47,27 @@ export function TopHeader({ toggleSidebar }) {
   }, []);
 
   return (
-    <div className="flex items-center justify-between bg-gray-900 p-3 shadow-md w-full border-b border-gray-200">
+    <div className="flex items-center justify-between bg-gray-900 p-3 shadow-md w-full border-b border-gray-700">
       <div className="flex items-center gap-4">
         <button onClick={toggleSidebar} className="text-white md:hidden">
           <MenuIcon />
         </button>
-        <h1 className="text-lg font-semibold text-white">Dashboard</h1>
+        <h1 className="text-lg font-semibold text-white">{pageTitle}</h1>
       </div>
+
       <div className="flex items-center gap-4">
-        <div className="relative w-full max-w-xs">
-          <Search className="absolute left-3 top-2 text-gray-400" />
-          <input
-            type="text"
-            placeholder="Search..."
-            className="bg-gray-800 text-white pl-10 pr-4 py-1.5 rounded-lg focus:outline-none w-full"
-          />
-        </div>
-        <Bell className="text-gray-400 cursor-pointer" />
-        <div className="flex items-center gap-2 text-white">
-          <Globe className="text-gray-400" />
-          <span className="hidden sm:block">Eng (US)</span>
-        </div>
         {user && (
           <div className="flex items-center gap-2 bg-gray-800 px-3 py-1 rounded-lg">
             <span className="text-white">{user.name}</span>
           </div>
         )}
-         <button onClick={handleLogout}>Logout</button>
+        <button
+          onClick={handleLogout}
+          className="bg-gray-600 px-3 py-1 rounded-md text-white hover:bg-gray-500 transition"
+        >
+          Logout
+        </button>
       </div>
-     
     </div>
   );
 }

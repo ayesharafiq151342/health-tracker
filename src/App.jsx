@@ -16,6 +16,9 @@ import MealTracker from './pages/meals';
 import {TopHeader} from './components/topheader';
 import {SidebarComponent} from './components/sidebar'
 import Exercise from './pages/exercise';
+import MedicalRecords from './pages/mealrecord';
+import Suggestions from './pages/suggestions';
+import Reminder from './pages/reminder';
 const App = () => { 
   return (
     <div>
@@ -36,6 +39,12 @@ const App = () => {
           <Route path='/meals' element={<MealTracker></MealTracker>} />
 
           <Route path='/exercise' element={<Exercise></Exercise>} />
+          <Route path='/MedicalRecords' element={<MedicalRecords></MedicalRecords>} />
+          <Route path='/suggestions' element={<Suggestions></Suggestions>} />
+          <Route path='/reminder' element={<Reminder></Reminder>} />
+
+
+          
 
 
 

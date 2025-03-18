@@ -12,12 +12,23 @@ const Home = () => {
 
       {/* Hero Section */}
       <section  
-        className="relative h-[400px] md:h-[700px] flex flex-col lg:items-end items-center  justify-center text-center bg-cover bg-center px-4"
-        style={{ backgroundImage: "url('/slider-bg.webp')" }}
-      >
-        <h2 className="text-xl md:text-2xl font-bold text-white lg:mr-90">The New Mefit</h2>
-        <h3 className="text-3xl md:text-5xl font-bold text-white mt-2 lg:mr-50">Motivation on Wrist</h3>
-      </section>
+  className="relative h-screen flex items-center justify-center text-center bg-cover bg-center px-4"
+  style={{ backgroundImage: "url('/bg.avif')" }}
+>
+  {/* Gradient Overlay */}
+  <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+
+  {/* Animated Text */}
+  <div className="relative z-10 text-white">
+    <h1 className="text-4xl md:text-6xl font-bold animate-fadeInUp">
+      Welcome to Health  Tracker
+    </h1>
+ 
+  </div>
+</section>
+
+
+
 
       {/* Features Section */}
       <section 
@@ -42,38 +53,7 @@ const Home = () => {
       </section>
 
       {/* Calorie Tracker Section */}
-      <section
-        className="relative bg-cover h-[400px] bg-bottom py-16 flex flex-col items-center text-center px-4"
-        style={{
-          backgroundImage: 'url("/home-image-3.jpg")',
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center 20%", // Adjusts position for better view
-        }}
-      >
-        <div className="max-w-4xl grid grid-cols-1 md:grid-cols-4 gap-10 items-center">
-          {/* Left Image */}
- 
-          <div className="flex lg:ml-20 justify-center ">
-            <img src="/homepage 3a.webp" alt="Calorie Tracker" className="w-60 md:w-96 object-contain" />
-          </div>
-          <div className="md:flex justify-center hidden">
-           
-          </div>
-     
-          {/* Right Text Content */}
-          <div className="text-left">
-            <h2 className="text-3xl md:text-xl font-bold text-blue-950">Calorie Tracker</h2>
-            <p className="mt-4 text-gray-700 font-medium">WHAT YOU CAN'T STOP EXPECTING.</p>
-            <ul className="mt-4 space-y-2 text-gray-600">
-              <li> 5-day battery life</li>
-              <li> Digital tracking algorithm</li>
-              <li> High splash resistant</li>
-              <li> DRX Limited Edition</li>
-            </ul>
-           
-          </div>
-        </div>
-      </section>
+    
 
       {/* Product Showcase */}
       <section 

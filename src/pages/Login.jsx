@@ -55,19 +55,15 @@ export default function Login() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-gray-900 to-gray-700 px-4">
-      <div className="flex flex-col md:flex-row bg-gray-200/50 rounded-lg shadow-lg w-full max-w-4xl overflow-hidden">
-        {/* Left Side (Illustration) */}
-        <div className="hidden md:flex w-1/2 bg-gray-200/30 rounded-lg shadow-lg justify-center items-center p-8">
-          <div className="text-center">
-            <img
-              src="/signupbg-removebg-preview.png"
-              alt="Illustration"
-              className="mx-auto mb-4"
-            />
-          </div>
-        </div>
+    <div className="flex flex-col md:flex-row items-center justify-center bg-gray-100 min-h-screen">
+      {/* Left Side - Image */}
+      <div
+        className="hidden md:block md:w-1/2 bg-cover bg-center h-screen"
+        style={{ backgroundImage: 'url(/login.jpg)' }}
+      ></div>
 
+      {/* Right Side */}
+      <div className="flex flex-col justify-center items-center w-full md:w-1/2">
         {/* Right Side (Login Form) */}
         <div className="w-full md:w-1/2 p-8">
           <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center">Login</h2>

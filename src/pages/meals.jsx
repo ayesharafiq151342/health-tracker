@@ -7,7 +7,6 @@ import toast, { Toaster } from "react-hot-toast";
 
 export default function MealTracker() {
   const [meals, setMeals] = useState([]);
-  const [error, setError] = useState(null);
   const [isSidebarOpen, setSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -15,21 +14,16 @@ export default function MealTracker() {
   };
 
   const [formData, setFormData] = useState({
-
-      category: "",
-      calories: "",
-      carbs: "",
-      fats: "",
-      protiens: "",
-      sodium: "",
-      sugar: "",
-      fiber: "",
-    // Reset date after submission
-    });
-    // ✅ Date added
-
-
-  const [editId, setEditId] = useState(null);
+    category: "",
+    calories: "",
+    carbs: "",
+    fats: "",
+    protiens: "",
+    sodium: "",
+    sugar: "",
+    fiber: "",
+    date: "",
+  });
 
   useEffect(() => {
     fetchMeals();
@@ -39,7 +33,6 @@ export default function MealTracker() {
     try {
       const token = Cookies.get("token");
       if (!token) {
-        setError("Not logged in. Please login again.");
         toast.error("Not logged in. Please login again.");
         return;
       }
@@ -55,8 +48,8 @@ export default function MealTracker() {
         setMeals([]);
       }
     } catch (error) {
-      setError("Failed to load meals. Please try again." +error);
-      toast.error("Failed to load meals.");
+      console.error("Fetch Meals Error:", error);
+      toast.error(`Failed to load meals: ${error.response?.data?.message || error.message}`);
     }
   };
 
@@ -66,37 +59,22 @@ export default function MealTracker() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(null);
 
     try {
       const token = Cookies.get("token");
       if (!token) {
-        setError("Authentication token missing. Please log in again.");
         toast.error("Authentication token missing. Please log in again.");
         return;
       }
 
-      if (editId) {
-        await axios.put(`http://localhost:4000/api/users/edit-meal/${editId}`, formData, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+      const res = await axios.post("http://localhost:4000/api/users/create-meal", formData, {
+        headers: { Authorization: `Bearer ${token}` },
+        withCredentials: true,
+      });
 
-        setMeals((prevMeals) =>
-          prevMeals.map((meal) => (meal._id === editId ? { ...meal, ...formData } : meal))
-        );
-
-        setEditId(null);
-        toast.success("Meal updated successfully!");
-      } else {
-        const res = await axios.post("http://localhost:4000/api/users/create-meal", formData, {
-          headers: { Authorization: `Bearer ${token}` },
-          withCredentials: true,
-        });
-
-        if (res.data.success && res.data.meal) {
-          setMeals((prevMeals) => [...prevMeals, res.data.meal]);
-          toast.success("Meal added successfully!");
-        }
+      if (res.data.success && res.data.meal) {
+        setMeals((prevMeals) => [...prevMeals, res.data.meal]);
+        toast.success("Meal added successfully!");
       }
 
       setFormData({
@@ -108,51 +86,14 @@ export default function MealTracker() {
         sodium: "",
         sugar: "",
         fiber: "",
-   // Reset date after submission
-
+        date: "",
       });
     } catch (error) {
-      toast.error("Failed to add/update meal. Try again."+error);
+      console.error("Meal Submission Error:", error);
+      toast.error(`Failed to add meal: ${error.response?.data?.message || error.message}`);
     }
-    fetchMeals(toast.success("added successfully"));
 
-  };
-
-  const handleEdit = (meal) => {
-    setFormData({
-      category: meal.category,
-      calories: meal.calories.toString(),
-      carbs: meal.carbs.toString(),
-      fats: meal.fats.toString(),
-      protiens: meal.protiens.toString(),
-      sodium: meal.sodium.toString(),
-      sugar: meal.sugar.toString(),
-      fiber: meal.fiber.toString(),
-     // ✅ Extract YYYY-MM-DD format
-    });
-    setEditId(meal._id);
-    toast.success("Edit Data");
-  };
-  
-
-  const handleDelete = async (mealId) => {
-    try {
-      const token = Cookies.get("token");
-      if (!token) {
-        toast.error("Authentication token missing. Please log in again.");
-        return;
-      }
-
-      await axios.delete(`http://localhost:4000/api/users/delete-meal/${mealId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-        withCredentials: true,
-      });
-
-      setMeals((prevMeals) => prevMeals.filter((meal) => meal._id !== mealId));
-      toast.success("Meal deleted successfully!");
-    } catch (error) {
-      toast.error("Failed to delete meal. Try again."+error);
-    }
+    fetchMeals();
   };
 
   return (
@@ -161,60 +102,105 @@ export default function MealTracker() {
       <SidebarComponent isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
       <div className="flex-1 flex flex-col">
-        <TopHeader toggleSidebar={() => {}} />
-        <div className="p-6 m-8 lg:w-[1400px] border mt-30 mx-auto bg-white shadow-md rounded-lg text-black w-full">
+        <TopHeader toggleSidebar={toggleSidebar} />
+        <div className="p-6 m-8 lg:w-[1400px] border mt-10 mx-auto bg-white shadow-md rounded-lg text-black w-full">
           <h1 className="text-2xl font-bold mb-4 text-center">Meal Tracker</h1>
-          {error && <p className="text-red-500 text-center">{error}</p>}
 
-          {/* ✅ Meal Form */}
           <form onSubmit={handleSubmit} className="mb-6 grid grid-cols-2 gap-4">
-            {Object.keys(formData).map((key) => (
-              <input
-                key={key}
-                name={key}
-                value={formData[key]}
-                onChange={handleChange}
-                placeholder={key.charAt(0).toUpperCase() + key.slice(1)}
-                className="border p-2 rounded shadow-sm focus:ring-2 focus:ring-gray-500 w-full"
-                required
-              />
-            
-           
-            )
-          ) 
-            } <input
-            type="date"  // ✅ Date picker enabled
-            name="date"
-            value={formData.date}
-            onChange={handleChange}
-            className="border p-2 rounded shadow-sm focus:ring-2 focus:ring-gray-500 w-full"
-            required
-        />
-            
-   
+            <input
+              type="text"
+              name="category"
+              value={formData.category}
+              onChange={handleChange}
+              placeholder="Category"
+              className="border p-2 rounded shadow-sm w-full"
+              required
+            />
+            <input
+              type="number"
+              name="calories"
+              value={formData.calories}
+              onChange={handleChange}
+              placeholder="Calories"
+              className="border p-2 rounded shadow-sm w-full"
+              required
+            />
+            <input
+              type="number"
+              name="carbs"
+              value={formData.carbs}
+              onChange={handleChange}
+              placeholder="Carbs"
+              className="border p-2 rounded shadow-sm w-full"
+            />
+            <input
+              type="number"
+              name="fats"
+              value={formData.fats}
+              onChange={handleChange}
+              placeholder="Fats"
+              className="border p-2 rounded shadow-sm w-full"
+            />
+            <input
+              type="number"
+              name="protiens"
+              value={formData.protiens}
+              onChange={handleChange}
+              placeholder="Proteins"
+              className="border p-2 rounded shadow-sm w-full"
+            />
+            <input
+              type="number"
+              name="sodium"
+              value={formData.sodium}
+              onChange={handleChange}
+              placeholder="Sodium"
+              className="border p-2 rounded shadow-sm w-full"
+            />
+            <input
+              type="number"
+              name="sugar"
+              value={formData.sugar}
+              onChange={handleChange}
+              placeholder="Sugar"
+              className="border p-2 rounded shadow-sm w-full"
+            />
+            <input
+              type="number"
+              name="fiber"
+              value={formData.fiber}
+              onChange={handleChange}
+              placeholder="Fiber"
+              className="border p-2 rounded shadow-sm w-full"
+            />
+            <input
+              type="date"
+              name="date"
+              value={formData.date}
+              onChange={handleChange}
+              className="border p-2 rounded shadow-sm w-full"
+              required
+            />
 
             <button type="submit" className="col-span-2 bg-gray-800 text-white p-2 rounded shadow-md hover:bg-gray-500">
-              {editId ? "Update Meal" : "Add Meal"}
+              Add Meal
             </button>
           </form>
 
-          {/* ✅ Meal Table */}
           {meals.length > 0 ? (
             <div className="overflow-x-auto w-full">
               <table className="w-full border-collapse border border-gray-300">
                 <thead>
-                  <tr className="bg-gray-100">
+                  <tr className="bg-gray-300">
                     <th className="p-2 border">Category</th>
                     <th className="p-2 border">Calories</th>
                     <th className="p-2 border">Carbs</th>
                     <th className="p-2 border">Fats</th>
-                    <th className="p-2 border">Protiens</th>
+                    <th className="p-2 border">Proteins</th>
                     <th className="p-2 border">Sodium</th>
                     <th className="p-2 border">Sugar</th>
                     <th className="p-2 border">Fiber</th>
-                    <th className="p-2 border">Actions</th>
                     <th className="p-2 border">Date</th>
-
                   </tr>
                 </thead>
                 <tbody>
@@ -229,11 +215,6 @@ export default function MealTracker() {
                       <td className="p-2 border">{meal.sugar}</td>
                       <td className="p-2 border">{meal.fiber}</td>
                       <td className="p-2 border">{meal.date ? new Date(meal.date).toLocaleDateString() : "N/A"}</td>
-
-                      <td className="p-2 border flex justify-center gap-2">
-                        <button onClick={() => handleEdit(meal)} className="bg-yellow-500 px-2 py-1 rounded">Edit</button>
-                        <button onClick={() => handleDelete(meal._id)} className="bg-red-500 px-2 py-1 rounded">Delete</button>
-                      </td>
                     </tr>
                   ))}
                 </tbody>

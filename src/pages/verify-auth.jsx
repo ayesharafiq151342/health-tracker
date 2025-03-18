@@ -44,16 +44,15 @@ function ResetPassword() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-gray-900 to-gray-700  px-4">
-      
-      <div className="flex flex-col md:flex-row bg-white rounded-lg shadow-lg w-full max-w-4xl overflow-hidden">
-        {/* Image Side - Hidden on Mobile */}
-        <div className="hidden md:flex w-1/2 bg-white justify-center items-center p-8">
-          <div className="text-center">
-            <img src="/otps.jpg" alt="Illustration" className="mx-auto mb-4" />
-            
-          </div>
-        </div><div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+    <div className="flex flex-col md:flex-row items-center justify-center bg-gray-100 min-h-screen">
+      {/* Left Side - Image */}
+      <div
+        className="hidden md:block md:w-1/2 bg-cover bg-center h-screen"
+        style={{ backgroundImage: 'url(/reste.jpg)' }}
+      ></div>
+
+      {/* Right Side */}
+      <div className="flex flex-col justify-center items-center w-full md:w-1/2">
         <h2 className="text-2xl font-bold mb-6 text-center">Reset Password</h2>
         <form onSubmit={handleResetPassword} className="space-y-4">
           <div>
@@ -86,7 +85,7 @@ function ResetPassword() {
         </form>
       </div>
     </div>
-    </div>
+ 
   );
 }
 

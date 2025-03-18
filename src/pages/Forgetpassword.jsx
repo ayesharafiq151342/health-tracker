@@ -46,18 +46,15 @@ function ForgotPassword() {
 
 
 
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-gray-900 to-gray-700  px-4">
-     <div className="flex flex-col md:flex-row bg-white rounded-lg shadow-lg w-full max-w-4xl overflow-hidden">
-        {/* Image Side - Hidden on Mobile */}
-        <div className="hidden md:flex w-1/2 bg-white justify-center items-center p-8">
-          <div className="text-center">
-            <img src="/forgot-pass.jpg" alt="Illustration" className="mx-auto mb-4" />
-           
-        
-          </div>
-        </div>
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-6 text-center">Forgot Password</h2>
+    <div className="flex flex-col md:flex-row items-center justify-center bg-gray-100 min-h-screen">
+    {/* Left Side - Image */}
+    <div
+      className="hidden md:block md:w-1/2 bg-cover bg-center h-screen"
+      style={{ backgroundImage: 'url(/forget.webp)' }}
+    ></div>
+
+    {/* Right Side */}
+    <div className="flex flex-col justify-center items-center w-full md:w-1/2">  <h2 className="text-2xl font-bold mb-6 text-center">Forgot Password</h2>
         <form onSubmit={handleForgotPassword} className="space-y-4">
           <div>
             <label className="block text-gray-700 mb-1">Email</label>
@@ -75,8 +72,8 @@ function ForgotPassword() {
           </Button>
         </form>
       </div>
-    </div>
-    </div>
+      </div>
+ 
   );
 }
 export default  ForgotPassword

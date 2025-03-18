@@ -7,20 +7,19 @@ export function SidebarComponent({ isOpen, toggleSidebar }) {
 
   const menuItems = [
     { name: "Dashboard", icon: <Home />, link: "/dashboard" },
-    { name: "Analytics", icon: <BarChart />, link: "/analytics" },
     { name: "Exercise", icon: <Dumbbell />, link: "/Exercise" },
-    { name: "Medical Records", icon: <Clipboard />, link: "/medical-records" },
+    { name: "Medical Records", icon: <Clipboard />, link: "/MedicalRecords" },
     { name: "Meals", icon: <Utensils />, link: "/meals" },
     { name: "Suggestions", icon: <Lightbulb />, link: "/suggestions" },
     { name: "Reminder", icon: <Bell />, link: "/reminder" },
-    { name: "Settings", icon: <Settings />, link: "/settings" },
+  
   ];
 
   return (
     <div
       className={`fixed inset-y-0 left-0 z-50 transform ${
         isOpen ? "translate-x-0" : "-translate-x-full"
-      } transition-transform md:relative md:translate-x-0 md:w-64 w-72 bg-black p-4 shadow-lg`}
+      } transition-transform md:relative md:translate-x-0 md:w-64 w-72 bg-gray-900 p-4 shadow-lg`}
     >
       <div className="h-full bg-gray-900 border-r border-gray-700 p-4">
         <ul>
