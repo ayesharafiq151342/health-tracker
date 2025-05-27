@@ -23,7 +23,7 @@ import Editexercise from './pages/Editexercise';
 import EditMeals from './pages/editMeals';
 import EditMedicalRecord from './pages/editMedicalRecord';
 import Goal from './pages/goal'
-import Dashboard from './pages/admin/dashboard';
+import Dashboard from './pages/admin/Dashboard';
 import { SidebarComponentbyadmin } from './pages/admin/sidebar_admin';
 import { TopHeaderbyadmin } from './pages/admin/topHeaderby-admin';
 import {Interview} from './pages/admin/interview';
