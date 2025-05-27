@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
     // import toast, { Toaster } from "react-hot-toast";
-    
+    import Parent from '../components/Parent'
     import { TopHeader } from "../components/topheader";
     import { SidebarComponent } from "../components/sidebar";
     
@@ -19,7 +19,9 @@ import React, { useState } from 'react'
           <div className="flex-1 flex flex-col">
             <TopHeader toggleSidebar={() => {}} />
             <div className="p-6 m-8 lg:w-[1400px] border mt-10 mx-auto bg-white shadow-md rounded-lg text-black w-full">
-            <>ider hai suugestions</>
+            <>
+                <Parent></Parent>
+            </>
             </div>
           </div>
         </div>

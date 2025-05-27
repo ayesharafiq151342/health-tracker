@@ -6,8 +6,8 @@ const Navbar = () => {
   return (
     <nav className="bg-gray-900 text-white p-4 flex justify-between items-center fixed w-full top-0 left-0 z-50 shadow-md">
       {/* Logo */}
-      <h1 className="text-xl font-bold">HealthTracker</h1>
-
+     
+<h2 className="text-2xl">Health tracker</h2>
       {/* Mobile Menu Button */}
       <button
         className="md:hidden text-white text-2xl focus:outline-none"
