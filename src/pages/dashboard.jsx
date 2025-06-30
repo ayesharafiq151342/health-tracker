@@ -1,12 +1,87 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { TopHeader } from '../components/topheader';
+import axios from "axios";
+import Cookies from "js-cookie";
 import { SidebarComponent } from "../components/sidebar";
 import { FaFire, FaRunning, FaChartBar, FaHeartbeat, FaTint } from "react-icons/fa";
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 
 function DashboardLayout() {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
+  const [calorieGoal, setCalorieGoal] = useState(0);
+  const [exerciseGoal, setExerciseGoal] = useState('');
+  const [heartBeat, setHeartBeat] = useState(0);
+  const [systolic, setSystolic] = useState('')
+  const[diaSystolic, setDiaSystolic]= useState('')
+  const [prevSystolic, setPrevSystolic] = useState('')
+  const[prevDiaSystolic, setPrevDiaSystolic]= useState('')
+  const [calories, setCalories]= useState(0);
+  const [remainingCalories, setRemainingCalories] = useState(0)
+  const [currentGoal, setCurrentGoal] = useState(null);
+  let calGoal;
+// Get Calories
+ useEffect(() => {
+    // Fetch existing goals when the component mounts
+    const token = Cookies.get("token");
+    axios.get('https://health-tracker-backend-with-ash.vercel.app/api/users/get-goal',{
+        headers: { Authorization: `Bearer ${token}` },
+        withCredentials: true,
+      }) // Assuming your Express server is running on the same host/port or you've configured proxy
+      .then(data => {
+      
+        if (data) {
+          calGoal=Number(data.data.goal.calorieGoal);
+          setCalorieGoal(data.data.goal.calorieGoal);
+          setExerciseGoal(data.data.goal.exerciseGoal);
+          setCurrentGoal(data.data.goal);
+        }
+      })
+      .catch(error => console.error('Error fetching goals:', error));
+  }, []);
+  // Get Medical Records 
 
+ useEffect(() => {
+  // Fetch existing goals when the component mounts
+  const token = Cookies.get("token");
+  axios.get('https://health-tracker-backend-with-ash.vercel.app/api/users/get-records',{
+      headers: { Authorization: `Bearer ${token}` },
+      withCredentials: true,
+    }) // Assuming your Express server is running on the same host/port or you've configured proxy
+    .then(data => {
+      
+      if (data) {
+        
+         setHeartBeat(data.data.records[0].heartBeat);
+         setSystolic(data.data.todayRecords[0].bloodPressure.systolic);
+         setDiaSystolic(data.data.todayRecords[0].bloodPressure.diaSystolic)
+         setPrevSystolic(data.data.prevRecords[0].bloodPressure.systolic);
+         setPrevDiaSystolic(data.data.prevRecords[0].bloodPressure.diaSystolic)
+       
+      }
+    })
+    .catch(error => console.error('Error fetching goals:', error));
+}, []);
+// Get Calories from meal 
+
+useEffect(() => {
+  // Fetch existing goals when the component mounts
+  const token = Cookies.get("token");
+  axios.get('https://health-tracker-backend-with-ash.vercel.app/api/users/meals',{
+      headers: { Authorization: `Bearer ${token}` },
+      withCredentials: true,
+    }) // Assuming your Express server is running on the same host/port or you've configured proxy
+    .then(data => {
+      
+      if (data) {
+        console.log(data)
+        setRemainingCalories(calGoal -  data.data.meals[0].calories);
+        console.log(data.data.meals[0].calories)
+        setCalories(data.data.meals[0].calories)
+       
+      }
+    })
+    .catch(error => console.error('Error fetching goals:', error));
+}, []);
   const toggleSidebar = () => {
     setSidebarOpen(!isSidebarOpen);
   }; 
@@ -65,17 +140,19 @@ function DashboardLayout() {
               <div className="bg-gray-800 p-4 rounded-lg shadow-md flex flex-col items-center">
                 <FaChartBar className="text-blue-400 text-3xl" />
                 <h3 className="mt-2 font-medium">Calories</h3>
-                <p className="text-gray-400">130 Cal</p>
+                {currentGoal && ( <p className="text-gray-400"> {currentGoal.calorieGoal}</p> )}
               </div>
               <div className="bg-gray-800 p-4 rounded-lg shadow-md flex flex-col items-center">
                 <FaHeartbeat className="text-red-400 text-3xl" />
                 <h3 className="mt-2 font-medium">Heart Rate</h3>
-                <p className="text-gray-400">110 Bp</p>
+                {heartBeat && ( <p className="text-gray-400"> {heartBeat}</p> )}
+                {/* <p className="text-gray-400">110 Bp</p> */}
               </div>
               <div className="bg-gray-800 p-4 rounded-lg shadow-md flex flex-col items-center">
-                <FaTint className="text-teal-400 text-3xl" />
-                <h3 className="mt-2 font-medium">Water Intake</h3>
-                <p className="text-gray-400">6.0L</p>
+                <FaTint
+                 className="text-teal-400 text-3xl" />
+                <h3 className="mt-2 font-medium">Exercise Time</h3>
+                {currentGoal && ( <p className="text-gray-400"> {currentGoal.exerciseGoal}</p> )}
               </div>
             </div>   </div>
               <div className="bg-gray-800 p-4 rounded-lg h-[440px] shadow-md row-span-2 flex flex-col items-center">
@@ -85,30 +162,38 @@ function DashboardLayout() {
               <div className=" bg-gray-800 p-4 rounded-lg grid grid-cols-1 md:grid-cols-1 gap-6 mt-6 lg:mt-0">
               <div className="bg-blue-300 p-4  rounded-lg shadow-md">
                 <h3 className="font-medium">Calories</h3>
-                <p className="text-gray-700">Consumed: 130 Cal</p>
-                <p className="text-gray-700">Remaining: 60 Cal</p>
+                <p className="text-gray-700">Consumed:  {calories} Cal</p>
+                <p className="text-gray-700">Remaining:   {remainingCalories} Cal</p>
                 <div className="w-full h-2 bg-gray-400 rounded mt-2">
-                  <div className="h-2 bg-blue-600 rounded" style={{ width: "70%" }}></div>
+                  <div className="h-2 bg-blue-600 rounded" style={{ width: `${calories / remainingCalories * 100}%` }}></div>
                 </div>
               </div>
 
               <div className="bg-pink-300 p-4 rounded-lg shadow-md">
-                <h3 className="font-medium">Heart</h3>
-                <p className="text-gray-700">Today: 110 Bp</p>
-                <p className="text-gray-700">Yesterday: 130 Bp</p>
+                <h3 className="font-medium">Blood Pressure</h3>
+                
+                <p className="text-gray-700">Today: {systolic} / { diaSystolic} Bp</p>
+                <p className="text-gray-700">Yesterday: {prevSystolic} / { prevDiaSystolic} Bp</p>
+                <h3 className="font-medium">Systolic</h3>
                 <div className="w-full h-2 bg-gray-400 rounded mt-2">
-                  <div className="h-2 bg-pink-600 rounded" style={{ width: "50%" }}></div>
+                  
+                  <div className="h-2 bg-pink-600 rounded" style={{ width: `${systolic}%`}}></div>
+                </div>
+                <h3 className="font-medium ">DiaSystolic</h3>
+
+                <div className="w-full h-2 bg-gray-400 rounded mt-2">
+                  <div className="h-2 bg-red-600 rounded" style={{ width: `${diaSystolic}%`}}></div>
                 </div>
               </div>
 
-              <div className="bg-yellow-300 p-4 rounded-lg shadow-md">
+              {/* <div className="bg-yellow-300 p-4 rounded-lg shadow-md">
                 <h3 className="font-medium">Water</h3>
                 <p className="text-gray-700">Consumed: 6.0L</p>
                 <p className="text-gray-700">Remaining: 5L</p>
                 <div className="w-full h-2 bg-gray-400 rounded mt-2">
                   <div className="h-2 bg-yellow-600 rounded" style={{ width: "80%" }}></div>
                 </div>
-              </div>
+              </div> */}
             </div>
            
             </div>

@@ -2,17 +2,12 @@
 import { NavLink, useLocation } from "react-router-dom";
 import { Home,Goal, BarChart, Dumbbell, Clipboard, Utensils, Lightbulb, Bell, Settings } from "lucide-react";
 
-export function SidebarComponent({ isOpen, toggleSidebar }) {
+export function SidebarComponentbyadmin({ isOpen, toggleSidebar }) {
   const location = useLocation(); // ✅ Get current URL path
 
   const menuItems = [
-    { name: "Dashboard", icon: <Home />, link: "/dashboard" },
-    { name: "Goal", icon: <Goal />, link: "/Goal" },
-    { name: "Exercise", icon: <Dumbbell />, link: "/Exercise" },
-    { name: "Medical Records", icon: <Clipboard />, link: "/MedicalRecords" },
-    { name: "Meals", icon: <Utensils />, link: "/meals" },
-    { name: "Suggestions", icon: <Lightbulb />, link: "/suggestions" },
-    { name: "Reminder", icon: <Bell />, link: "/reminder" },
+    { name: "Admin Dashboard", icon: <Home />, link: "/admin/dashboard" },
+    
   
   ];
 

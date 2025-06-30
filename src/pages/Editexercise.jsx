@@ -4,8 +4,9 @@ import axios from "axios";
 import { TopHeader } from "../components/topheader";
 import { SidebarComponent } from "../components/sidebar";
 import toast, { Toaster } from "react-hot-toast";
-
+import {useParams} from 'react-router-dom';
 export default function ExerciseTracker() {
+  const {eid} = useParams();
   const [exercises, setExercises] = useState([]);
   const [error, setError] = useState(null);
   const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -56,43 +57,21 @@ export default function ExerciseTracker() {
       return;
     }
     try {
-      const res = await axios.post("https://health-tracker-backend-with-ash.vercel.app/api/users/create-exercise", formData, {
+      
+      const res = await axios.put(`https://health-tracker-backend-with-ash.vercel.app/api/users/edit-exercise/${eid}`, formData, {
         headers: { Authorization: `Bearer ${token}` },
         withCredentials: true,
       });
       if (res.data.success) {
-        setExercises((prev) => [...prev, res.data.exercise]);
-        toast.success("Exercise added successfully!");
+        // setExercises((prev) => [...prev, res.data.exercise]);
+        toast.success("Exercise updated successfully!");
         setFormData({ name: "", duration: "", category: "", date: "" });
       }
     } catch (error) {
       toast.error("Failed to add exercise. Try again." + error);
     }
   };
-  const handleDelete = async (id) => {
-  
-    
-    const token = Cookies.get("token");
-    if (!token) {
-      toast.error("Authentication token missing. Please log in again.");
-      return;
-    }
-    try {
-      
-      const res = await axios.delete(`https://health-tracker-backend-with-ash.vercel.app/api/users/delete-exercise/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-        withCredentials: true,
-      });
-      if (res.data.success) {
-        // setExercises((prev) => [...prev, res.data.exercise]);
-        toast.success("Exercise Deleted successfully!");
-        setFormData({ name: "", duration: "", category: "", date: "" });
-      }
-    } catch (error) {
-      toast.error("Failed to delete exercise. Try again." + error);
-    }
-    
-  };
+
   return (
     <div className="flex flex-col md:flex-row h-screen bg-gradient-to-r from-gray-900 to-gray-700 text-white">
      
@@ -100,11 +79,11 @@ export default function ExerciseTracker() {
       <div className="flex-1 flex flex-col">
         <TopHeader toggleSidebar={toggleSidebar} />
         <div className="p-6 m-8 lg:w-[1400px] border mt-10 mx-auto bg-white shadow-md rounded-lg text-black w-full">
-          <h1 className="text-2xl font-bold mb-4 text-center">Exercise Tracker</h1>
+          <h1 className="text-2xl font-bold mb-4 text-center">Edit Exercise</h1>
           {error && <p className="text-red-500 text-center">{error}</p>}
 
           {/* Exercise Form */}
-          <form onSubmit={handleSubmit} className="mb-6 grid grid-cols-2 gap-4">
+          <form onSubmit={handleSubmit} className="mb-6 grid grid-cols-2 gap-4" method="PUT">
             <input
               name="name"
               value={formData.name}
@@ -139,7 +118,7 @@ export default function ExerciseTracker() {
               required
             />
             <button type="submit" className="col-span-2 bg-gray-800 text-white p-2 rounded shadow-md hover:bg-gray-500">
-              Add Exercise
+              Edit Exercise
             </button>
           </form>
 
@@ -163,23 +142,9 @@ export default function ExerciseTracker() {
                   <td className="p-2 border">{exercise.duration}</td>
                   <td className="p-2 border">{exercise.category}</td>
                   <td className="p-2 border">{new Date(exercise.date).toLocaleDateString()}</td>
-                  <td className="p-2 border">
-  <a
-    href={`editExercise/${exercise._id}`}
-    className="px-3 py-1 bg-green-600 hover:bg-green-700 text-white rounded text-sm"
-  >
-   ✏️ Edit
-  </a>
-</td>
-<td className="p-2 border">
-  <button
-    onClick={() => handleDelete(exercise._id)}
-    className="px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded text-sm"
-  >
-   🗑️  Delete
-  </button>
-</td>
- </tr>
+                  {/* <td className="p-2 border"><a href={`updateBook/${exercise._id}`}>Edit</a></td> */}
+                  {/* <td className="p-2 border"><a href="#">Delete</a></td> */}
+                </tr>
               ))}
             </tbody>
           </table>

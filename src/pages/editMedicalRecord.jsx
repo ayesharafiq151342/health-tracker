@@ -5,7 +5,9 @@ import toast, { Toaster } from "react-hot-toast";
 
 import { TopHeader } from "../components/topheader";
 import { SidebarComponent } from "../components/sidebar";
+import { useParams } from "react-router-dom";
 export default function MedicalRecords() {
+  const { id } = useParams();
   const [records, setRecords] = useState([]);
   const [formData, setFormData] = useState({
     heartBeat: "",
@@ -61,9 +63,9 @@ export default function MedicalRecords() {
     }
 
     try {
-      if (editId) {
+      if (id) {
         await toast.promise(
-          axios.put(`https://health-tracker-backend-with-ash.vercel.app/api/users/edit-record/${editId}`, formData, {
+          axios.put(`https://health-tracker-backend-with-ash.vercel.app/api/users/edit-record/${id}`, formData, {
             headers: { Authorization: `Bearer ${token}` },
             withCredentials: true,
           }),
@@ -127,7 +129,7 @@ export default function MedicalRecords() {
       <div className="flex-1 flex flex-col">
         <TopHeader toggleSidebar={() => {}} />
         <div className="p-6 m-8 lg:w-[1400px] border mt-10 mx-auto bg-white shadow-md rounded-lg text-black w-full">
-          <h1 className="text-2xl font-bold mb-4 text-center">Medical Records</h1>
+          <h1 className="text-2xl font-bold mb-4 text-center">Edit Medical Records</h1>
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4 mb-6">
@@ -180,7 +182,7 @@ export default function MedicalRecords() {
               required
             />
             <button type="submit" className="col-span-2 bg-gray-800 text-white p-2 rounded shadow-md hover:bg-gray-500">
-              {editId ? "Update Record" : "Add Record"}
+              {id ? "Update Record" : "Add Record"}
             </button>
           </form>
 
@@ -192,8 +194,7 @@ export default function MedicalRecords() {
                 <th className="p-2 border">Heart Beat</th>
                 <th className="p-2 border">BP (Sys/Dia)</th>
                 <th className="p-2 border">Sugar</th>
-                <th className="p-2 border">Edit</th>
-                <th className="p-2 border">Delete</th>
+                
 
 
                 
@@ -210,28 +211,6 @@ export default function MedicalRecords() {
                       : "Not Recorded"}
                   </td>
                   <td className="p-2 border">{record.sugar}</td>
-                  <td className="p-2 border">
-  <a
-    href={`editMedicalRecord/${record._id}`}
-    className="px-3 py-1 bg-green-600 hover:bg-green-700 text-white rounded text-sm inline-block text-center"
-  >
-    ✏️ Edit
-  </a>
-</td>
-<td className="p-2 border">
-  <button
-    onClick={() => handleDelete(record._id)}
-    className="px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded text-sm"
-  >
-    🗑️ Delete
-  </button>
-</td>
-
-                     
- 
-  
-
-
                 </tr>
               ))}
             </tbody>

@@ -2,23 +2,19 @@ import { useEffect, useState } from "react";
 import { Menu as MenuIcon } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-export function TopHeader({ toggleSidebar }) {
+export function TopHeaderbyadmin({ toggleSidebar }) {
   const location = useLocation();
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
 
   // 🛑 Define titles dynamically based on routes
   const pageTitles = {
-    "/dashboard": "Dashboard",
-    "/Exercise": "Exercise Tracker",
-    "/MedicalRecords": "Medical Records",
-    "/meals": "Meal Tracker",
-    "/suggestions": "Health Suggestions",
-    "/reminder": "Reminders",
+    "/admin/dashboard": "Admin Dashboard",
+   
   };
 
   // Get the current page title based on URL
-  const pageTitle = pageTitles[location.pathname] || "Dashboard";
+  const pageTitle = pageTitles[location.pathname] || "AdminDashboard";
 
   // Logout function
   const handleLogout = async () => {

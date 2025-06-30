@@ -19,11 +19,24 @@ import Exercise from './pages/exercise';
 import MedicalRecords from './pages/mealrecord';
 import Suggestions from './pages/suggestions';
 import Reminder from './pages/reminder';
+import Editexercise from './pages/Editexercise';
+import EditMeals from './pages/editMeals';
+import EditMedicalRecord from './pages/editMedicalRecord';
+import Goal from './pages/goal'
+import Dashboard from './pages/admin/dashboard';
+import { SidebarComponentbyadmin } from './pages/admin/sidebar_admin';
+import { TopHeaderbyadmin } from './pages/admin/topHeaderby-admin';
+
+
+
 const App = () => { 
   return (
     <div>
       <Routes>
+        
           <Route path='/' element={<Home></Home>} />
+          <Route path='/goal' element={<Goal></Goal>} />
+
           <Route path='/login' element={<Login></Login>} />
           <Route path='/VerifyEmail' element={<EmailVarify></EmailVarify>} />
           <Route path='/Forgetpassword' element={<ForgotPassword></ForgotPassword>} />
@@ -42,9 +55,13 @@ const App = () => {
           <Route path='/MedicalRecords' element={<MedicalRecords></MedicalRecords>} />
           <Route path='/suggestions' element={<Suggestions></Suggestions>} />
           <Route path='/reminder' element={<Reminder></Reminder>} />
+          <Route path='/editexercise/:eid' element={<Editexercise></Editexercise>}></Route>
+          <Route path='/editMeals/:id' element={<EditMeals></EditMeals>}></Route>
+          <Route path='/editMedicalRecord/:id' element={<EditMedicalRecord></EditMedicalRecord>}></Route>
 
-
-          
+          <Route path='/admin/dashboard' element={ <Dashboard> </Dashboard> }>  </Route>
+          <Route path='/admin/sidebar_admin' element={<SidebarComponentbyadmin> </SidebarComponentbyadmin> }>  </Route>
+          <Route path='/admin/topHeaderby-admin' element={<TopHeaderbyadmin> </TopHeaderbyadmin> }>  </Route>
 
 
 

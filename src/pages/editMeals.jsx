@@ -45,11 +45,10 @@ export default function MealTracker() {
       if (res.data.success && Array.isArray(res.data.meals)) {
         setMeals(res.data.success ? res.data.meals : []);
       } else {
-        // setMeals([]);
-        console.log("data not found")
+         setMeals([]);
+        
       }
     } catch (error) {
-      console.error("Fetch Meals Error:", error);
       toast.error(`Failed to load meals: ${error.response?.data?.message || error.message}`);
     }
   };
@@ -68,14 +67,14 @@ export default function MealTracker() {
         return;
       }
 
-      const res = await axios.post("https://health-tracker-backend-with-ash.vercel.app/api/users/create-meal", formData, {
+      const res = await axios.put(`https://health-tracker-backend-with-ash.vercel.app/api/users/edit-meal/${id}`, formData, {
         headers: { Authorization: `Bearer ${token}` },
         withCredentials: true,
       });
 
       if (res.data.success && res.data.meal) {
         setMeals((prevMeals) => [...prevMeals, res.data.meal]);
-        toast.success("Meal added successfully!");
+        toast.success("Meal updated successfully!");
         fetchMeals()
       }
 
@@ -91,35 +90,12 @@ export default function MealTracker() {
         date: "",
       });
     } catch (error) {
-      toast.error(`Failed to add meal: ${error.response?.data?.message || error.message}`);
+      toast.error(`Failed to update meal: ${error.response?.data?.message || error.message}`);
     }
 
     fetchMeals();
   };
-  const handleDelete = async (id) => {
-  
-    
-    const token = Cookies.get("token");
-    if (!token) {
-      toast.error("Authentication token missing. Please log in again.");
-      return;
-    }
-    try {
-      
-      const res = await axios.delete(`https://health-tracker-backend-with-ash.vercel.app/api/users/delete-meal/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-        withCredentials: true,
-      });
-      if (res.data.success) {
-        // setExercises((prev) => [...prev, res.data.exercise]);
-        toast.success("Daily Meal Deleted successfully!");
-        setFormData({ name: "", duration: "", category: "", date: "" });
-      }
-    } catch (error) {
-      toast.error("Failed to delete exercise. Try again." + error);
-    }
-    
-  };
+ 
 
   return (
     <div className="flex flex-col md:flex-row h-screen bg-gradient-to-r from-gray-900 to-gray-700 text-white">
@@ -129,7 +105,7 @@ export default function MealTracker() {
       <div className="flex-1 flex flex-col">
         <TopHeader toggleSidebar={toggleSidebar} />
         <div className="p-6 m-8 lg:w-[1400px] border mt-10 mx-auto bg-white shadow-md rounded-lg text-black w-full">
-          <h1 className="text-2xl font-bold mb-4 text-center">Meals</h1>
+          <h1 className="text-2xl font-bold mb-4 text-center">Edit Meal</h1>
 
           <form onSubmit={handleSubmit} className="mb-6 grid grid-cols-2 gap-4">
             <input
@@ -208,7 +184,7 @@ export default function MealTracker() {
             />
 
             <button type="submit" className="col-span-2 bg-gray-800 text-white p-2 rounded shadow-md hover:bg-gray-500">
-              Add Meal
+              Update Meal
             </button>
           </form>
 
@@ -226,8 +202,6 @@ export default function MealTracker() {
                     <th className="p-2 border">Sugar</th>
                     <th className="p-2 border">Fiber</th>
                     <th className="p-2 border">Date</th>
-                    <th className="p-2 border">Edit</th>
-                    <th className="p-2 border">Delete</th>
                     
                   </tr>
                 </thead>
@@ -243,23 +217,7 @@ export default function MealTracker() {
                       <td className="p-2 border">{meal.sugar}</td>
                       <td className="p-2 border">{meal.fiber}</td>
                       <td className="p-2 border">{meal.date ? new Date(meal.date).toLocaleDateString() : "N/A"}</td>
-                      <td className="p-2 border">
-  <a
-    href={`editMeals/${meal._id}`}
-    className="px-3 py-1 bg-green-600 hover:bg-green-700 text-white rounded text-sm inline-block text-center"
-  >
-    ✏️ Edit
-  </a>
-</td>
-<td className="p-2 border">
-  <button
-    onClick={() => handleDelete(meal._id)}
-    className="px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded text-sm"
-  >
-    🗑️ Delete
-  </button>
-</td>
-
+                     
                     </tr>
                   ))}
                 </tbody>
