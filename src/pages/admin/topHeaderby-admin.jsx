@@ -19,7 +19,7 @@ export function TopHeaderbyadmin({ toggleSidebar }) {
   // Logout function
   const handleLogout = async () => {
     try {
-      const response = await fetch("https://health-tracker-backend-with-ash.vercel.app/api/auth/logout", {
+      const response = await fetch("https://health-tracker-backend-with-f7xnxlpui.vercel.app/api/auth/logout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

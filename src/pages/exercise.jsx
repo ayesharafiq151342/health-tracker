@@ -32,7 +32,7 @@ export default function ExerciseTracker() {
         toast.error("Not logged in. Please login again.");
         return;
       }
-      const res = await axios.get("https://health-tracker-backend-with-ash.vercel.app/api/users/exercises", {
+      const res = await axios.get("https://health-tracker-backend-with-f7xnxlpui.vercel.app/api/users/exercises", {
         headers: { Authorization: `Bearer ${token}` },
         withCredentials: true,
       });
@@ -56,7 +56,7 @@ export default function ExerciseTracker() {
       return;
     }
     try {
-      const res = await axios.post("https://health-tracker-backend-with-ash.vercel.app/api/users/create-exercise", formData, {
+      const res = await axios.post("https://health-tracker-backend-with-f7xnxlpui.vercel.app/api/users/create-exercise", formData, {
         headers: { Authorization: `Bearer ${token}` },
         withCredentials: true,
       });
@@ -79,7 +79,7 @@ export default function ExerciseTracker() {
     }
     try {
       
-      const res = await axios.delete(`https://health-tracker-backend-with-ash.vercel.app/api/users/delete-exercise/${id}`, {
+      const res = await axios.delete(`https://health-tracker-backend-with-f7xnxlpui.vercel.app/api/users/delete-exercise/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
         withCredentials: true,
       });

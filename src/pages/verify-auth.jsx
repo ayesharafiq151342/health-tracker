@@ -22,7 +22,7 @@ function ResetPassword() {
     setLoading(true);
 
     try {
-      const response = await fetch("https://health-tracker-backend-with-ash.vercel.app/api/auth/reset-password", {
+      const response = await fetch("https://health-tracker-backend-with-f7xnxlpui.vercel.app/api/auth/reset-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, otp, newPassword }),

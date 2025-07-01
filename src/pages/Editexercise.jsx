@@ -33,7 +33,7 @@ export default function ExerciseTracker() {
         toast.error("Not logged in. Please login again.");
         return;
       }
-      const res = await axios.get("https://health-tracker-backend-with-ash.vercel.app/api/users/exercises", {
+      const res = await axios.get("https://health-tracker-backend-with-f7xnxlpui.vercel.app/api/users/exercises", {
         headers: { Authorization: `Bearer ${token}` },
         withCredentials: true,
       });
@@ -58,7 +58,7 @@ export default function ExerciseTracker() {
     }
     try {
       
-      const res = await axios.put(`https://health-tracker-backend-with-ash.vercel.app/api/users/edit-exercise/${eid}`, formData, {
+      const res = await axios.put(`https://health-tracker-backend-with-f7xnxlpui.vercel.app/api/users/edit-exercise/${eid}`, formData, {
         headers: { Authorization: `Bearer ${token}` },
         withCredentials: true,
       });

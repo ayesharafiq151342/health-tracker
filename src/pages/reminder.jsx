@@ -13,14 +13,14 @@ function Reminder() {
   const [reminders, setReminders] = useState([]);
 
   useEffect(() => {
-    axios.get("https://health-tracker-backend-with-ash.vercel.app/reminders").then((res) => {
+    axios.get("https://health-tracker-backend-with-f7xnxlpui.vercel.app/reminders").then((res) => {
       setReminders(res.data);
     });
   }, []);
 
   const addReminder = () => {
     axios
-      .post("https://health-tracker-backend-with-ash.vercel.app/add-reminder", { description, time, email })
+      .post("https://health-tracker-backend-with-f7xnxlpui.vercel.app/add-reminder", { description, time, email })
       .then(() => {
         toast.success("Reminder Added!");
         setReminders([...reminders, { description, time, email }]);

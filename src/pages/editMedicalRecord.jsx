@@ -34,7 +34,7 @@ export default function MedicalRecords() {
         return;
       }
 
-      const res = await axios.get("https://health-tracker-backend-with-ash.vercel.app/api/users/get-records", {
+      const res = await axios.get("https://health-tracker-backend-with-f7xnxlpui.vercel.app/api/users/get-records", {
         headers: { Authorization: `Bearer ${token}` },
         withCredentials: true,
       });
@@ -65,7 +65,7 @@ export default function MedicalRecords() {
     try {
       if (id) {
         await toast.promise(
-          axios.put(`https://health-tracker-backend-with-ash.vercel.app/api/users/edit-record/${id}`, formData, {
+          axios.put(`https://health-tracker-backend-with-f7xnxlpui.vercel.app/api/users/edit-record/${id}`, formData, {
             headers: { Authorization: `Bearer ${token}` },
             withCredentials: true,
           }),
@@ -78,7 +78,7 @@ export default function MedicalRecords() {
         setEditId(null);
       } else {
         await toast.promise(
-          axios.post("https://health-tracker-backend-with-ash.vercel.app/api/users/create-record", formData, {
+          axios.post("https://health-tracker-backend-with-f7xnxlpui.vercel.app/api/users/create-record", formData, {
             headers: { Authorization: `Bearer ${token}` },
             withCredentials: true,
           }),
@@ -107,7 +107,7 @@ export default function MedicalRecords() {
     }
     try {
       
-      const res = await axios.delete(`https://health-tracker-backend-with-ash.vercel.app/api/users/delete-record/${id}`, {
+      const res = await axios.delete(`https://health-tracker-backend-with-f7xnxlpui.vercel.app/api/users/delete-record/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
         withCredentials: true,
       });

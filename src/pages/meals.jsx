@@ -37,7 +37,7 @@ export default function MealTracker() {
         return;
       }
 
-      const res = await axios.get("https://health-tracker-backend-with-ash.vercel.app/api/users/meals", {
+      const res = await axios.get("https://health-tracker-backend-with-f7xnxlpui.vercel.app/api/users/meals", {
         headers: { Authorization: `Bearer ${token}` },
         withCredentials: true,
       });
@@ -68,7 +68,7 @@ export default function MealTracker() {
         return;
       }
 
-      const res = await axios.post("https://health-tracker-backend-with-ash.vercel.app/api/users/create-meal", formData, {
+      const res = await axios.post("https://health-tracker-backend-with-f7xnxlpui.vercel.app/api/users/create-meal", formData, {
         headers: { Authorization: `Bearer ${token}` },
         withCredentials: true,
       });
@@ -106,7 +106,7 @@ export default function MealTracker() {
     }
     try {
       
-      const res = await axios.delete(`https://health-tracker-backend-with-ash.vercel.app/api/users/delete-meal/${id}`, {
+      const res = await axios.delete(`https://health-tracker-backend-with-f7xnxlpui.vercel.app/api/users/delete-meal/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
         withCredentials: true,
       });

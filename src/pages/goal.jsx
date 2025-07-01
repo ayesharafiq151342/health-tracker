@@ -13,7 +13,7 @@ function SetGoals() {
 
   useEffect(() => {
     const token = Cookies.get("token");
-    axios.get('https://health-tracker-backend-with-ash.vercel.app/api/users/get-goal', {
+    axios.get('https://health-tracker-backend-with-f7xnxlpui.vercel.app/api/users/get-goal', {
       headers: { Authorization: `Bearer ${token}` },
       withCredentials: true,
     })
@@ -41,7 +41,7 @@ function SetGoals() {
 
     const goalData = { calorieGoal, exerciseGoal };
 
-    axios.post('https://health-tracker-backend-with-ash.vercel.app/api/users/create-goal', goalData, {
+    axios.post('https://health-tracker-backend-with-f7xnxlpui.vercel.app/api/users/create-goal', goalData, {
       headers: { Authorization: `Bearer ${token}` },
       withCredentials: true,
     })

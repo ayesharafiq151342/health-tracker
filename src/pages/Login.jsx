@@ -29,7 +29,7 @@ export default function Login() {
     }
 
     try {
-      const response = await fetch("https://health-tracker-backend-with-ash.vercel.app/api/auth/login", {
+      const response = await fetch("https://health-tracker-backend-with-f7xnxlpui.vercel.app/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

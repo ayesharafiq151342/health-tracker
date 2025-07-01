@@ -56,7 +56,7 @@ export default function Dashboard() {
   const toggleAdmin = async (userId, isAdmin) => {
     try {
       const response = await axios.put(
-        "https://health-tracker-backend-with-ash.vercel.app/api/users/update_admin_by_admin",
+        "https://health-tracker-backend-with-f7xnxlpui.vercel.app/api/users/update_admin_by_admin",
         { userId, isAdmin: !isAdmin },
         { withCredentials: true }
       );

@@ -23,7 +23,7 @@ function DashboardLayout() {
  useEffect(() => {
     // Fetch existing goals when the component mounts
     const token = Cookies.get("token");
-    axios.get('https://health-tracker-backend-with-ash.vercel.app/api/users/get-goal',{
+    axios.get('https://health-tracker-backend-with-f7xnxlpui.vercel.app/api/users/get-goal',{
         headers: { Authorization: `Bearer ${token}` },
         withCredentials: true,
       }) // Assuming your Express server is running on the same host/port or you've configured proxy
@@ -43,7 +43,7 @@ function DashboardLayout() {
  useEffect(() => {
   // Fetch existing goals when the component mounts
   const token = Cookies.get("token");
-  axios.get('https://health-tracker-backend-with-ash.vercel.app/api/users/get-records',{
+  axios.get('https://health-tracker-backend-with-f7xnxlpui.vercel.app/api/users/get-records',{
       headers: { Authorization: `Bearer ${token}` },
       withCredentials: true,
     }) // Assuming your Express server is running on the same host/port or you've configured proxy
@@ -66,7 +66,7 @@ function DashboardLayout() {
 useEffect(() => {
   // Fetch existing goals when the component mounts
   const token = Cookies.get("token");
-  axios.get('https://health-tracker-backend-with-ash.vercel.app/api/users/meals',{
+  axios.get('https://health-tracker-backend-with-f7xnxlpui.vercel.app/api/users/meals',{
       headers: { Authorization: `Bearer ${token}` },
       withCredentials: true,
     }) // Assuming your Express server is running on the same host/port or you've configured proxy
